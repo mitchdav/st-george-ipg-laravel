@@ -4,6 +4,7 @@ namespace StGeorgeIPG\Laravel\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
+use StGeorgeIPG\Client;
 use StGeorgeIPG\Exceptions\ResponseCodes\Exception;
 use StGeorgeIPG\Laravel\Facades\IPG;
 
@@ -36,6 +37,8 @@ class CheckConnection extends Command
 		$year       = $oneYearAhead->year;
 
 		$purchaseRequest = IPG::purchase($amount, $cardNumber, $month, $year);
+
+		IPG::setPort(Client::PORT_TEST);
 
 		try {
 			$purchaseResponse = IPG::execute($purchaseRequest);
