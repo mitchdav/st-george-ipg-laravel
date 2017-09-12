@@ -1,29 +1,41 @@
 {
-    "name": "mitchdav/st-george-ipg-laravel",
-    "description": "A Laravel service provider for the St.George IPG library.",
-    "type": "library",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Mitchell Davis",
-            "email": "mitch@wingmanwebdesign.com.au"
-        }
-    ],
-    "scripts": {
-        "test": "phpunit"
-    },
-    "autoload": {
-        "psr-4": {
-            "StGeorgeIPG\\Laravel\\": "src/"
-        }
-    },
-    "require": {
-        "illuminate/support": "^5.4",
-        "illuminate/console": "^5.4",
-        "nesbot/carbon": "^1.22",
-      "mitchdav/st-george-ipg": "^0.1.3"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^5.7"
+  "name": "mitchdav/st-george-ipg-laravel",
+  "description": "A Laravel service provider for the St.George IPG library.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Mitchell Davis",
+      "email": "mitch@wingmanwebdesign.com.au"
     }
+  ],
+  "keywords": [
+    "st.george",
+    "st george",
+    "ipg",
+    "payment",
+    "payments",
+    "credit card",
+    "credit cards",
+    "merchant",
+    "laravel",
+    "service provider"
+  ],
+  "scripts": {
+    "test": "phpunit"
+  },
+  "autoload": {
+    "psr-4": {
+      "StGeorgeIPG\\Laravel\\": "src/"
+    }
+  },
+  "require": {
+    "illuminate/support": "^5.4",
+    "illuminate/console": "^5.4",
+    "nesbot/carbon": "^1.22",
+    "mitchdav/st-george-ipg": "^1.0"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^5.7"
+  }
 }

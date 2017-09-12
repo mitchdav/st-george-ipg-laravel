@@ -3,7 +3,8 @@
 namespace StGeorgeIPG\Laravel;
 
 use Illuminate\Support\ServiceProvider;
-use StGeorgeIPG\Laravel\Commands\CheckConnection;
+use StGeorgeIPG\Laravel\Commands\TestPurchase;
+use StGeorgeIPG\Laravel\Commands\UpdateCertificate;
 
 class Provider extends ServiceProvider
 {
@@ -15,15 +16,14 @@ class Provider extends ServiceProvider
 
 		if ($this->app->runningInConsole()) {
 			$this->commands([
-				CheckConnection::class,
+				TestPurchase::class,
+				UpdateCertificate::class,
 			]);
 		}
 	}
 
 	public function register()
 	{
-		$this->mergeConfigFrom(
-			__DIR__ . '/../config/ipg.php', 'ipg'
-		);
+		$this->mergeConfigFrom(__DIR__ . '/../config/ipg.php', 'ipg');
 	}
 }

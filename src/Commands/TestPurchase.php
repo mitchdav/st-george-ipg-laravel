@@ -4,18 +4,18 @@ namespace StGeorgeIPG\Laravel\Commands;
 
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-use StGeorgeIPG\Client;
 use StGeorgeIPG\Exceptions\ResponseCodes\Exception;
-use StGeorgeIPG\Laravel\Facades\IPG;
+use StGeorgeIPG\Laravel\IPG;
+use StGeorgeIPG\Providers\Extension;
 
-class CheckConnection extends Command
+class TestPurchase extends Command
 {
 	/**
 	 * The name and signature of the console command.
 	 *
 	 * @var string
 	 */
-	protected $signature = 'ipg:check-connection';
+	protected $signature = 'ipg:test-purchase {provider?} {cert?}';
 
 	/**
 	 * The console command description.
@@ -29,6 +29,27 @@ class CheckConnection extends Command
 	 */
 	public function handle()
 	{
+		$providerClass   = $this->argument('provider');
+		$certificatePath = $this->argument('cert');
+
+		if ($providerClass !== NULL) {
+			/** @var \StGeorgeIPG\Contracts\Provider $provider */
+			$provider = IPG::createClient($providerClass)
+			               ->getProvider();
+
+			IPG::setProvider($provider);
+		}
+
+		$provider = IPG::getProvider();
+
+		$provider->setTest();
+
+		if (get_class($provider) == Extension::class && $certificatePath !== NULL) {
+			/** @var Extension $provider */
+
+			$provider->setCertificatePath($certificatePath);
+		}
+
 		$oneYearAhead = (new Carbon())->addYear();
 
 		$amount     = 10.00; // In dollars
@@ -38,14 +59,12 @@ class CheckConnection extends Command
 
 		$purchaseRequest = IPG::purchase($amount, $cardNumber, $month, $year);
 
-		IPG::setPort(Client::PORT_TEST);
-
 		try {
 			$purchaseResponse = IPG::execute($purchaseRequest);
 
-			$this->comment('The charge was successful.');
+			$this->info('The test purchase was successful.');
 		} catch (Exception $ex) {
-			$this->error('The charge was unsuccessful.');
+			$this->error('The test purchase was unsuccessful.');
 			$this->error($ex->getMessage());
 		}
 	}
